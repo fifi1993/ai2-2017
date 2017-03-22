@@ -1,4 +1,4 @@
-#!/usr/bin/python -tt
+#!/usr/bin/python2.4 -tt
 # Copyright 2010 Google Inc.
 # Licensed under the Apache License, Version 2.0
 # http://www.apache.org/licenses/LICENSE-2.0
@@ -6,35 +6,53 @@
 # Google's Python Class
 # http://code.google.com/edu/languages/google-python-class/
 
-# Additional basic list exercises
+# Additional basic string exercises
 
-# D. Given a list of numbers, return a list where
-# all adjacent == elements have been reduced to a single element,
-# so [1, 2, 2, 3] returns [1, 2, 3]. You may create a new list or
-# modify the passed in list.
-def remove_adjacent(nums):
-  nums2 = []
-  for num in nums:
-    if len(nums2)==0 or num!=nums2[-1]:
-      nums2.append(num)
-  return nums2
+# D. verbing
+# Given a string, if its length is at least 3,
+# add 'ing' to its end.
+# Unless it already ends in 'ing', in which case
+# add 'ly' instead.
+# If the string length is less than 3, leave it unchanged.
+# Return the resulting string.
+def verbing(s):
+  if len(s)>=3:
+    if s[-3:] != 'ing':
+      return s+'ing'
+    else:
+      return s+'ly'
+  return s
 
-# E. Given two lists sorted in increasing order, create and return a merged
-# list of all the elements in sorted order. You may modify the passed in lists.
-# Ideally, the solution should work in "linear" time, making a single
-# pass of both lists.
-def linear_merge(list1, list2):
-  wholelist = list1 + list2
-  return sorted(wholelist)
 
-# Note: the solution above is kind of cute, but unforunately list.pop(0)
-# is not constant time with the standard python list implementation, so
-# the above is not strictly linear time.
-# An alternate approach uses pop(-1) to remove the endmost elements
-# from each list, building a solution list which is backwards.
-# Then use reversed() to put the result back in the correct order. That
-# solution works in linear time, but is more ugly.
+# E. not_bad
+# Given a string, find the first appearance of the
+# substring 'not' and 'bad'. If the 'bad' follows
+# the 'not', replace the whole 'not'...'bad' substring
+# with 'good'.
+# Return the resulting string.
+# So 'This dinner is not that bad!' yields:
+# This dinner is good!
+def not_bad(s):
+  if s.find('not') != -1 and s.find('bad') != -1 and s.find('bad') > s.find('not'):
+    s = s[:s.find('not')] + 'good' + s[s.find('bad')+3:]  
+  return s
 
+
+# F. front_back
+# Consider dividing a string into two halves.
+# If the length is even, the front and back halves are the same length.
+# If the length is odd, we'll say that the extra char goes in the front half.
+# e.g. 'abcde', the front half is 'abc', the back half 'de'.
+# Given 2 strings, a and b, return a string of the form
+#  a-front + b-front + a-back + b-back
+def front_back(a, b):
+  a_m = len(a) / 2
+  b_m = len(b) / 2
+  if (len(a) % 2) == 1:  
+    a_m = a_m + 1
+  if (len(b) % 2) == 1:
+    b_m = b_m + 1 
+  return a[:a_m] + b[:b_m] + a[a_m:] + b[b_m:]
 
 # Simple provided test() function used in main() to print
 # what each function returns vs. what it's supposed to return.
@@ -46,22 +64,24 @@ def test(got, expected):
   print ('%s got: %s expected: %s' % (prefix, repr(got), repr(expected)))
 
 
-# Calls the above functions with interesting inputs.
+# main() calls the above functions with interesting inputs,
+# using the above test() to check if the result is correct or not.
 def main():
-  print ('remove_adjacent')
-  test(remove_adjacent([1, 2, 2, 3]), [1, 2, 3])
-  test(remove_adjacent([2, 2, 3, 3, 3]), [2, 3])
-  test(remove_adjacent([]), [])
+  print ('verbing')
+  test(verbing('hail'), 'hailing')
+  test(verbing('swiming'), 'swimingly')
+  test(verbing('do'), 'do')
 
-  print
-  print ('linear_merge')
-  test(linear_merge(['aa', 'xx', 'zz'], ['bb', 'cc']),
-       ['aa', 'bb', 'cc', 'xx', 'zz'])
-  test(linear_merge(['aa', 'xx'], ['bb', 'cc', 'zz']),
-       ['aa', 'bb', 'cc', 'xx', 'zz'])
-  test(linear_merge(['aa', 'aa'], ['aa', 'bb', 'bb']),
-       ['aa', 'aa', 'aa', 'bb', 'bb'])
+  print ('not_bad')
+  test(not_bad('This movie is not so bad'), 'This movie is good')
+  test(not_bad('This dinner is not that bad!'), 'This dinner is good!')
+  test(not_bad('This tea is not hot'), 'This tea is not hot')
+  test(not_bad("It's bad yet not"), "It's bad yet not")
 
+  print ('front_back')
+  test(front_back('abcd', 'xy'), 'abxcdy')
+  test(front_back('abcde', 'xyz'), 'abcxydez')
+  test(front_back('Kitten', 'Donut'), 'KitDontenut')
 
 if __name__ == '__main__':
   main()
