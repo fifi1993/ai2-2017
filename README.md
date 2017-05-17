@@ -215,3 +215,117 @@ d: None
 
 keyword_args(5,2,b=4) - TypeError: keyword_args() got multiple values for argument 'b'
 ```
+--------------------------------------------------
+```
+>>> all_together(2)
+Traceback (most recent call last):
+  File "<pyshell#54>", line 1, in <module>
+    all_together(2)
+TypeError: all_together() missing 1 required positional argument: 'y'
+>>> all_together(2, 5, 7, 8, indent=False)
+x: 2
+y: 5
+z: 7
+nums: (8,)
+indent: False
+spaces: 4
+options: {}
+>>> all_together(2, 5, 7, 6, indent=None)
+x: 2
+y: 5
+z: 7
+nums: (6,)
+indent: None
+spaces: 4
+options: {}
+>>> all_together()
+Traceback (most recent call last):
+  File "<pyshell#57>", line 1, in <module>
+    all_together()
+TypeError: all_together() missing 2 required positional arguments: 'x' and 'y'
+>>> all_together(indent=True, 3, 4, 5)
+SyntaxError: positional argument follows keyword argument
+>>> all_together(**{'indent': False}, scope='maximum')
+Traceback (most recent call last):
+  File "<pyshell#59>", line 1, in <module>
+    all_together(**{'indent': False}, scope='maximum')
+TypeError: all_together() missing 2 required positional arguments: 'x' and 'y'
+>>> all_together(dict(x=0, y=1), *range(10))
+x: {'y': 1, 'x': 0}
+y: 0
+z: 1
+nums: (2, 3, 4, 5, 6, 7, 8, 9)
+indent: True
+spaces: 4
+options: {}
+>>> all_together(**dict(x=0, y=1), *range(10))
+SyntaxError: iterable argument unpacking follows keyword argument unpacking
+>>> all_together(*range(10), **dict(x=0, y=1))
+Traceback (most recent call last):
+  File "<pyshell#62>", line 1, in <module>
+    all_together(*range(10), **dict(x=0, y=1))
+TypeError: all_together() got multiple values for argument 'y'
+>>> all_together([1, 2], {3:4})
+x: [1, 2]
+y: {3: 4}
+z: 1
+nums: ()
+indent: True
+spaces: 4
+options: {}
+>>> all_together(8, 9, 10, *[2, 4, 6], x=7, spaces=0, **{'a':5, 'b':'x'})
+Traceback (most recent call last):
+  File "<pyshell#64>", line 1, in <module>
+    all_together(8, 9, 10, *[2, 4, 6], x=7, spaces=0, **{'a':5, 'b':'x'})
+TypeError: all_together() got multiple values for argument 'x'
+>>> all_together(8, 9, 10, *[2, 4, 6], spaces=0, **{'a':[4,5], 'b':'x'})
+x: 8
+y: 9
+z: 10
+nums: (2, 4, 6)
+indent: True
+spaces: 0
+options: {'b': 'x', 'a': [4, 5]}
+>>> all_together(8, 9, *[2, 4, 6], *dict(z=1), spaces=0, **{'a':[4,5], 'b':'x'})
+x: 8
+y: 9
+z: 2
+nums: (4, 6, 'z')
+indent: True
+spaces: 0
+options: {'b': 'x', 'a': [4, 5]}
+```
+Lab4.py
+```
+>>> gcd(2,2)
+2
+>>> gcd(2,5)
+1
+>>> lcm(2,2)
+2
+>>> lcm(2,8)
+8
+>>> 
+```
+Lab4b.py
+```
+>>> fact(3)
+6
+>>> fact(7)
+5040
+>>> 
+```
+Lab4c.py
+```
+['PyThOn', 'wOrLD']
+>>> 
+```
+Lab4d.py
+```
+>>> generate_triangles()
+<generator object generate_triangles at 0x02E24900>
+>>> triangles_under(5)
+0
+1
+3
+```
